@@ -20,10 +20,6 @@ jobs:
           uses: actions/setup-node@v1
           with:
             node-version: 14.x
-        - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v1
-          with:
-            terraform_version: 5.68.0
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v2
           with:

@@ -1,0 +1,33 @@
+# create workflow script for terrarform plan
+
+name: Plan
+
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v1
+          with:
+            terraform_version: 5.68.0
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.CUMULARE_CLINICAL_CONNECT_TERRAFORM_KEY}}
+            aws-secret-access-key: ${{ secrets.CUMULARE_CLINICAL_CONNECT_TERRAFORM_ACCESS_KEY }}
+            aws-region: us-east-1
+        - name: Terraform Init
+          run: terraform init
+    
+        - name: Terraform Plan
+          run: terraform plan
